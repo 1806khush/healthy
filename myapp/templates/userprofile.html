@@ -1,0 +1,81 @@
+{% extends '1header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Hero Section with Improved Overlay -->
+    
+   
+
+    <!-- Improved Alert Message -->
+    {% if msg %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="container">
+            <strong><i class="fa fa-exclamation-circle mr-2"></i>{{msg}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Enhanced Form Section -->
+    <section class="ftco-section contact-section bg-light py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow">
+                        <div class="card-body p-5">
+                            <div class="text-center mb-4">
+                                <div class="profile-img-container mb-4">
+                                    <img src="{{user.profile.url}}" class="rounded-circle shadow" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <h3 class="mb-3">Personal Information</h3>
+                                <p class="text-muted">Update your profile details below</p>
+                            </div>
+
+                            <form method="post" action="{% url 'userprofile' %}" class="contact-form" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <div class="form-group">
+                                    <label for="name"><i class="fa fa-user mr-2"></i>Full Name</label>
+                                    <input type="text" id="name" class="form-control" placeholder="Your Name" name="name" value="{{user.name}}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email"><i class="fa fa-envelope mr-2"></i>Email Address</label>
+                                    <input type="email" id="email" class="form-control" placeholder="Your Email" name="email" value="{{user.email}}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="mobile"><i class="fa fa-phone mr-2"></i>Mobile Number</label>
+                                    <input type="tel" id="mobile" class="form-control" placeholder="Your Mobile Number" name="mobile" value="{{user.mobile}}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="profile"><i class="fa fa-camera mr-2"></i>Profile Picture</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="profile" name="profile">
+                                        <label class="custom-file-label" for="profile">Choose new image</label>
+                                    </div>
+                                    <small class="form-text text-muted">Maximum file size: 5MB</small>
+                                </div>
+                                
+                                <div class="form-group text-center mt-5">
+                                    <button type="submit" class="btn btn-primary py-3 px-5 rounded-pill shadow">
+                                        <i class="fa fa-save mr-2"></i>Update Profile
+                                    </button>
+                                    <a href="{% url 'changepass' %}" class="btn btn-primary py-3 px-5 rounded-pill shadow">
+                                        <i class="fa fa-lock mr-2"></i>Change Password
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+{% endblock %}

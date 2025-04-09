@@ -1,0 +1,445 @@
+{% extends '1header.html' %} 
+{% load static %} 
+{% block content %}
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+  <style>
+    /* Modern UI Enhancement */
+    :root {
+      --primary-color: #223a66;
+      --secondary-color: #e12454;
+      --light-color: #f8f9fa;
+      --dark-color: #223a66;
+      --text-color: #6F8BA4;
+      --gray-color: #e9ecef;
+      --white-color: #ffffff;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+      --hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Hero Section */
+    .page-title.bg-1 {
+      position: relative;
+      background-image: url('{% static "images/bg/medical-bg.jpg" %}');
+      background-size: cover;
+      background-position: center;
+      padding: 150px 0 120px;
+      margin-bottom: 50px;
+    }
+    
+    .page-title .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(34, 58, 102, 0.85), rgba(225, 36, 84, 0.75));
+    }
+    
+    .page-title .block h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 15px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .page-title .block span {
+      letter-spacing: 2px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    /* Filter Section */
+    .doctors-filter {
+      margin-bottom: 50px;
+      border-radius: 15px;
+      padding: 20px;
+      background: #f8f9fa;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .btn-group .btn {
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 10px 20px;
+      color: #555;
+      border-radius: 30px !important;
+      margin: 0 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-group .btn.active,
+    .btn-group .btn:hover {
+      background-color: #223a66;
+      color: white;
+      box-shadow: 0 4px 15px rgba(34, 58, 102, 0.2);
+    }
+    
+    
+    
+    /* Doctor Cards */
+    .shuffle-item {
+      margin-bottom: 30px;
+      height: auto;
+    }
+    
+    .doctor-inner-box {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: all 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--white-color);
+      position: relative;
+    }
+    
+    .doctor-inner-box:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .doctor-profile {
+      flex: 1 0 auto;
+    }
+    
+    .doctor-img {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* Creates a square aspect ratio */
+      background-color: #f5f5f5;
+    }
+    
+    .doctor-img img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s ease;
+    }
+    
+    .doctor-inner-box:hover .doctor-img img {
+      transform: scale(1.08);
+    }
+    
+    .doctor-inner-box .content {
+      padding: 25px 20px;
+      text-align: center;
+      background: var(--white-color);
+      flex: 0 0 auto;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid rgba(0,0,0,0.03);
+    }
+    
+    .doctor-inner-box .content h4 {
+      margin-bottom: 10px;
+    }
+    
+    .doctor-inner-box .content h4 a {
+      color: var(--primary-color);
+      font-weight: 700;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      display: block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    
+    .doctor-inner-box .content h4 a:hover {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+    
+    .doctor-inner-box .content p {
+      font-size: 15px;
+      color: var(--text-color);
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    /* Section Headers */
+    .section-title {
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      color: var(--primary-color);
+      font-size: 42px;
+      font-weight: 800;
+      position: relative;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+    
+    .divider {
+      height: 4px;
+      width: 70px;
+      background: var(--secondary-color);
+      border-radius: 2px;
+    }
+    
+    /* CTA Section */
+    .section.cta-page {
+      background: linear-gradient(rgba(34, 58, 102, 0.95), rgba(34, 58, 102, 0.95)), url('{% static "images/bg/cta-bg.jpg" %}');
+      background-size: cover;
+      padding: 100px 0;
+      color: var(--white-color);
+      margin-top: 80px;
+      position: relative;
+    }
+    
+    .section.cta-page::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(34, 58, 102, 0.9), rgba(225, 36, 84, 0.8));
+    }
+    
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cta-content h2 {
+      color: var(--white-color);
+      font-weight: 700;
+      font-size: 38px;
+      line-height: 1.4;
+    }
+    
+    .title-color {
+      color: #ffffff;
+      font-weight: 800;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .title-color::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background-color: rgba(225, 36, 84, 0.3);
+      z-index: -1;
+    }
+    
+    /* Custom Buttons */
+    .btn-custom {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      letter-spacing: 0.5px;
+    }
+    
+    .btn-custom:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-decoration: none;
+    }
+    
+    .btn-view {
+      background: linear-gradient(45deg, #2ecc71, #27ae60);
+      color: white;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-view::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.5s ease;
+    }
+    
+    .btn-view:hover {
+      background: linear-gradient(45deg, #27ae60, #219a52);
+      color: white;
+    }
+    
+    .btn-view:hover::before {
+      left: 100%;
+    }
+    
+    .btn-main-2 {
+      background: linear-gradient(45deg, var(--secondary-color), #c41d4a);
+      color: white;
+      border-radius: 30px;
+      padding: 15px 40px;
+      display: inline-block;
+      box-shadow: 0 15px 40px rgba(225, 36, 84, 0.2);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-main-2:hover {
+      background: linear-gradient(45deg, var(--primary-color), #182d52);
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 15px 40px rgba(34, 58, 102, 0.2);
+    }
+    
+    /* Equal height row fix */
+    .shuffle-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+    }
+    
+    .shuffle-wrapper::after {
+      content: '';
+      flex: auto;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+      .page-title.bg-1 {
+        padding: 100px 0 80px;
+      }
+      
+      .page-title .block h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-title h2 {
+        font-size: 36px;
+      }
+      
+      .btn-group .btn {
+        margin-bottom: 10px;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .page-title.bg-1 {
+        padding: 80px 0 60px;
+      }
+      
+      .page-title .block h1 {
+        font-size: 2rem;
+      }
+      
+      .section-title h2 {
+        font-size: 30px;
+      }
+      
+      .cta-content h2 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white text-uppercase letter-spacing">Our Medical Experts</span>
+          <h1 class="text-capitalize mb-5 text-lg text-white font-weight-bold">Meet Our Specialized Doctors</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Doctors Section -->
+<section class="section doctors">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 text-center">
+        <div class="section-title">
+          <h2>Our Expert Physicians</h2>
+          <div class="divider mx-auto my-4"></div>
+          <p class="text-muted">We provide a comprehensive team of experienced medical specialists dedicated to delivering exceptional healthcare tailored to your needs</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 text-center mb-5 doctors-filter">
+      <div class="btn-group btn-group-toggle flex-wrap" data-toggle="buttons">
+        <label class="btn active">
+          <input type="radio" name="shuffle-filter" value="all" checked="checked" />All Departments
+        </label>
+        {% for specialization in specializations %}
+        <label class="btn">
+          <input type="radio" name="shuffle-filter" value="{{ specialization|lower }}" />{{ specialization }}
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="row shuffle-wrapper portfolio-gallery">
+      {% for doctor in doctors %}
+      <div class="col-lg-3 col-sm-6 col-md-6 mb-4 shuffle-item" data-groups="[&quot;{{ doctor.specialization|lower }}&quot;]">
+        <div class="position-relative doctor-inner-box">
+          <div class="doctor-profile">
+            <div class="doctor-img">
+              {% if doctor.profile_image %}
+              <img src="{{ doctor.profile_image.url }}" alt="doctor-image">
+              {% else %}
+              <img src="{% static 'images/team/1.jpg' %}" alt="doctor-image">
+              {% endif %}
+            </div>
+          </div>
+          <div class="content">
+            <h4 class="mb-0"><a href="{% url 'docdetails' doctor.id %}">Dr.{{ doctor.name }}</a></h4>
+            <p>{{ doctor.specialization }}</p>
+            <div class="d-flex justify-content-center mt-3">
+              <a href="{% url 'userdetails' doctor.id %}" class="btn-custom btn-view">
+                <i class="fas fa-eye mr-1"></i> View Profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- /Doctors Section -->
+
+<!-- CTA Section -->
+<section class="section cta-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="cta-content">
+          <div class="divider mb-4"></div>
+          <h2 class="mb-5">We are pleased to offer you the <span class="title-color">chance to have the healthy</span> life you deserve</h2>
+       
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /CTA Section -->
+
+</html>
+{% endblock %}

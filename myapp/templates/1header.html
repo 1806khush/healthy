@@ -1,0 +1,328 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Orbitor, business, company, agency, modern, bootstrap4, tech, software">
+    <meta name="author" content="themefisher.com">
+    <title>Novena - Health & Care Medical Template</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/icofont/icofont.min.css' %}">
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/slick-carousel/slick/slick-theme.css' %}">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Additional Custom Styles -->
+    <style>
+        /* Enhanced Header Styles */
+        .header-top-bar {
+            background-color: #223a66;
+            padding: 10px 0;
+            color: #fff;
+        }
+        
+        .top-bar-info a, .top-bar-info li {
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .header-top-bar .h4 {
+            color: #e12454;
+            font-weight: 600;
+        }
+        
+        .navigation {
+            background: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand img {
+            max-height: 50px;
+        }
+        
+        .navbar-nav .nav-link {
+            padding: 10px 15px;
+            font-weight: 500;
+            color: #223a66;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: #e12454;
+        }
+        
+        .dropdown-menu {
+            border-radius: 0;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        
+        .dropdown-item {
+            padding: 10px 20px;
+            color: #223a66;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: #f5f8f9;
+            color: #e12454;
+        }
+        
+        /* Enhanced Footer Styles */
+        .footer {
+            padding: 80px 0 0;
+            background-color: #f4f9fc;
+        }
+        
+        .footer .logo img {
+            max-height: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-socials li a {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #223a66;
+            color: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-socials li a:hover {
+            background: #e12454;
+            transform: translateY(-3px);
+        }
+        
+        .widget h4 {
+            color: #223a66;
+            font-weight: 600;
+        }
+        
+        .divider {
+            height: 3px;
+            width: 50px;
+            background: #e12454;
+        }
+        
+        .footer-menu a {
+            color: #6F8BA4;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-menu a:hover {
+            color: #e12454;
+            padding-left: 5px;
+        }
+        
+        .footer-contact-block .icon {
+            margin-bottom: 10px;
+        }
+        
+        .footer-contact-block .icon i {
+            color: #e12454;
+            font-size: 20px;
+        }
+        
+        .footer-contact-block h4 a {
+            color: #223a66;
+            font-weight: 600;
+        }
+        
+        .footer-btm {
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .subscribe-form {
+            position: relative;
+        }
+        
+        .subscribe-form .form-control {
+            border-radius: 50px;
+            padding: 10px 25px;
+            height: 50px;
+        }
+        
+        .btn-main-2 {
+            background: #e12454;
+            color: #fff;
+            border-radius: 50px;
+            padding: 10px 25px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 50px;
+        }
+        
+        .btn-round-full {
+            border-radius: 50px;
+        }
+        
+        .backtop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background: #223a66;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+        
+        .backtop:hover {
+            background: #e12454;
+        }
+    </style>
+</head>
+<body id="top">
+
+<header>
+    
+    <nav class="navbar navbar-expand-lg navigation" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="img-fluid">
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain">
+                <span class="icofont-navigation-menu"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarmain">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'service' %}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'userdoctor' %}">Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'department' %}">Departments</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'appoinment' %}">Appointment</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    {% if request.session.email %}
+       
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+                    <li class="nav-item">
+                        <a href="{% url 'docprofile' %}" style="text-decoration: none;">
+                            {% if request.session.profile_pic %}
+                                <img src="{{ request.session.profile_pic }}" alt="Profile" class="rounded-circle" width="35" height="35" style="object-fit: cover; border: 1px solid #ddd;">
+                            {% else %}
+                                <img src="{% static 'images/user-avatar.png' %}" alt="Profile" class="rounded-circle" width="35" height="35" style="object-fit: cover; border: 1px solid #ddd;">
+                            {% endif %}
+                        </a>
+                    </li>
+                    
+                    {% else %}
+                    <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Signup</a></li>
+                    <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+{% block content %}{% endblock %}
+
+<footer class="footer section gray-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 mr-auto col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<div class="logo mb-4">
+						<img src="{% static 'images/logo.png' %}" alt="" class="img-fluid">
+					</div>
+					<p>Ensuring your health and well-being with trusted care and expertise. Your health matters to us.</p>
+
+					<ul class="list-inline footer-socials mt-4">
+						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
+						<li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Department</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="#">Surgery </a></li>
+						<li><a href="#">Wome's Health</a></li>
+						<li><a href="#">Radiology</a></li>
+						<li><a href="#">Cardioc</a></li>
+						<li><a href="#">Medicine</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Support</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="#">Terms & Conditions</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Company Support </a></li>
+						<li><a href="#">FAQuestions</a></li>
+						<li><a href="#">Company Licence</a></li>
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+		
+		<div class="footer-btm py-4 mt-5">
+			<div class="row align-items-center justify-content-between">
+				
+				<div class="col-lg-6">
+					<div class="subscribe-form text-lg-right mt-5 mt-lg-0">
+						<form action="#" class="subscribe">
+							<input type="text" class="form-control" placeholder="Your Email address">
+							<a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<a class="backtop js-scroll-trigger" href="#top">
+						<i class="icofont-long-arrow-up"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+   
+<!-- Essential Scripts -->
+<script src="{% static 'plugins/jquery/jquery.js' %}"></script>
+<script src="{% static 'plugins/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/counterup/jquery.easing.js' %}"></script>
+<script src="{% static 'plugins/slick-carousel/slick/slick.min.js' %}"></script>
+<script src="{% static 'plugins/counterup/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'plugins/shuffle/shuffle.min.js' %}"></script>
+<script src="{% static 'plugins/counterup/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'plugins/google-map/map.js' %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>    
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/contact.js' %}"></script>

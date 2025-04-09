@@ -1,0 +1,185 @@
+{% extends "1header.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-title bg-1" style="background: url('{% static 'images/bg/banner.jpg' %}') no-repeat; background-size: cover; background-position: center;">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Create Your Account</span>
+          <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% if msg %}
+<div class="alert alert-danger" role="alert">
+    {{msg}}
+</div>
+{% endif %}
+<section class="section signup-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mx-auto">
+        <div class="card shadow-lg">
+          <div class="card-body p-5">
+            <h2 class="text-center mb-5" style="color: #223a66;">Join Novena Health</h2>
+            
+            <form action="{% url 'signup' %}" method="POST" class="signup-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="userType" style="color: #223a66; font-weight: 500;">User Type</label>
+                <select id="userType" name="userType" class="form-control" required>
+                  <option value="" disabled selected>Select user type</option>
+                  <option value="Doctor">Doctor</option>
+                  <option value="Patient">Patient</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="name" style="color: #223a66; font-weight: 500;">Name</label>
+                <input type="text" id="name"  class="form-control" required name = "name">
+              </div>
+              
+              <div class="form-group mt-3">
+                <label for="email" style="color: #223a66; font-weight: 500;">Email Address</label>
+                <input type="email" id="email"  class="form-control" required name = "email">
+              </div>
+              
+              <div class="form-group mt-4">
+                <label for="mobile" style="color: #223a66; font-weight: 500;">Mobile Number</label>
+                <input type="tel" id="mobile"  class="form-control" required name = "mobile">
+              </div>
+              
+              <div class="form-group mt-4">
+                <label for="password" style="color: #223a66; font-weight: 500;">Password</label>
+                <input type="password" id="password" class="form-control" required name = "password">
+                <small class="form-text text-muted">Password must be at least 8 characters with letters and numbers</small>
+              </div>
+              
+              <div class="form-group mt-4">
+                <label for="confirm_password" style="color: #223a66; font-weight: 500;">Confirm Password</label>
+                <input type="password" id="confirm_password"  class="form-control" required name = "confirm_password">
+              </div>
+              <div class="form-group mt-4">
+                <label for="profile" style="color: #223a66; font-weight: 500;">Profile Image</label>
+                <input type="file" id="profile" class="form-control" name="profile" accept="image/*">
+              </div>
+              
+              <div class="form-check mt-4">
+                <input type="checkbox" class="form-check-input" id="terms" required>
+                <label class="form-check-label" for="terms">
+                  I agree to the <a href="#" style="color: #e12454;">Terms and Conditions</a> and <a href="#" style="color: #e12454;">Privacy Policy</a>
+                </label>
+              </div>
+              
+              <div class="text-center mt-5">
+                <button type="submit" class="btn btn-main btn-round-full btn-lg" style="background-color: #e12454; color: white; border: none; padding: 12px 40px; transition: all 0.3s ease;">Create Account</button>
+              </div>
+            </form>
+            
+            <div class="mt-5 text-center">
+              <p>Already have an account? <a href="{% url 'login' %}" style="color: #e12454; font-weight: 500;">Log In</a></p>
+            </div>
+            
+            <div class="social-login mt-4">
+              <p class="text-center mb-3" style="color: #6F8BA4;">Or sign up with</p>
+              <div class="d-flex justify-content-center">
+                <a href="#" class="btn social-btn mx-2" style="background-color: #3b5998; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <i class="icofont-facebook"></i>
+                </a>
+                <a href="#" class="btn social-btn mx-2" style="background-color: #DB4437; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <i class="icofont-google-plus"></i>
+                </a>
+                <a href="#" class="btn social-btn mx-2" style="background-color: #00acee; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <i class="icofont-twitter"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .signup-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .form-control {
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    box-shadow: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #e12454;
+    box-shadow: 0 0 0 0.2rem rgba(225, 36, 84, 0.15);
+  }
+  
+  .btn-main {
+    box-shadow: 0 15px 25px rgba(225, 36, 84, 0.25);
+  }
+  
+  .btn-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 30px rgba(225, 36, 84, 0.3);
+    background-color: #d41f4b !important;
+  }
+  
+  .social-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  label {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  
+  .page-title {
+    padding: 120px 0;
+    position: relative;
+  }
+  
+  .page-title .block h1 {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 700;
+  }
+  
+  .page-title .block span {
+    font-size: 20px;
+    font-weight: 300;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(34, 58, 102, 0.8);
+  }
+</style>
+{% endblock %}

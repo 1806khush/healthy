@@ -1,0 +1,47 @@
+{% extends '1header.html' %}
+{% block content %}
+<div class="container">
+  <section class="ftco-section d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-lg border-0">
+            <div class="card-header bg-white text-center border-0 pt-4">
+              <h2 class="text-primary font-weight-bold">Forgot Password</h2>
+              <p class="text-muted">Enter your email to receive a password reset OTP</p>
+            </div>
+            <div class="card-body p-5">
+              {% if msg %}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{msg}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              {% endif %}
+              
+              <form method="post" action="{% url 'forgotpass' %}" class="contact-form">
+                {% csrf_token %}
+                <div class="form-group mb-4">
+                  <label for="email" class="text-muted small mb-2">Email Address</label>
+                  <input type="email" id="email" class="form-control form-control-lg rounded-pill" placeholder="Enter your email" name="email" required>
+                </div>
+                
+                <div class="form-group mt-5">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block rounded-pill shadow">
+                    <i class="fa fa-paper-plane mr-2"></i>Send OTP
+                  </button>
+                </div>
+                
+                <div class="text-center mt-4">
+                  <a href="{% url 'login' %}" class="text-primary">Back to Login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,439 @@
+{% extends '1header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Care Departments - Medical Center</title>
+  <style>
+    :root {
+      --primary-color: #223a66;
+      --secondary-color: #e12454;
+      --text-color: #6F8BA4;
+      --heading-color: #222;
+      --light-color: #f4f9fc;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .bg-1 {
+      background: url('/api/placeholder/1200/300') no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(34, 58, 102, 0.8);
+    }
+    
+    .page-title {
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-white {
+      color: white;
+    }
+    
+    .text-capitalize {
+      text-transform: capitalize;
+    }
+    
+    .mb-5 {
+      margin-bottom: 3rem;
+    }
+    
+    .text-lg {
+      font-size: 2.5rem;
+    }
+    
+    .section {
+      padding: 80px 0;
+    }
+    
+    .section-title {
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      color: var(--heading-color);
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+    
+    .divider {
+      width: 40px;
+      height: 5px;
+      background: var(--secondary-color);
+    }
+    
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .my-4 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    
+    .justify-content-center {
+      justify-content: center;
+    }
+    
+    .col-lg-7 {
+      flex: 0 0 58.333333%;
+      max-width: 58.333333%;
+      padding: 0 15px;
+    }
+    
+    .col-lg-4, .col-md-6 {
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+      padding: 0 15px;
+    }
+    
+    @media (max-width: 992px) {
+      .col-lg-4, .col-lg-7 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .col-md-6, .col-lg-4, .col-lg-7 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    .department-block {
+      position: relative;
+      box-shadow: 0px 1px 20px 0px rgba(0, 0, 0, 0.08);
+      border-radius: 5px;
+      transition: all .3s ease;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .department-block:hover {
+      box-shadow: 0px 1px 25px 0px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+    
+    .department-block img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: all .3s ease;
+    }
+    
+    .department-block:hover img {
+      transform: scale(1.05);
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .title-color {
+      color: var(--primary-color);
+    }
+    
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+    
+    .mt-4 {
+      margin-top: 1.5rem;
+    }
+    
+    .mb-4 {
+      margin-bottom: 1.5rem;
+    }
+    
+    .read-more {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all .3s ease;
+    }
+    
+    .read-more:hover {
+      color: var(--primary-color);
+    }
+    
+    .ml-2 {
+      margin-left: 0.5rem;
+    }
+    
+    .mb-lg-0 {
+      margin-bottom: 0;
+    }
+    
+    .w-100 {
+      width: 100%;
+    }
+    
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* New styles for filtering */
+    .department-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    
+    .filter-btn {
+      background: var(--light-color);
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 30px;
+      color: var(--primary-color);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .3s ease;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--secondary-color);
+      color: white;
+    }
+    
+    .availability {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--secondary-color);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .specialist-info {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    .specialist-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+    
+    .specialist-name {
+      font-size: 14px;
+      color: var(--heading-color);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Title -->
+  <section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Healthcare Services</span>
+            <h1 class="text-capitalize mb-5 text-lg">Our Departments</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Department Section -->
+  <section class="section service-2">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <div class="section-title">
+            <h2>Specialized Medical Departments</h2>
+            <div class="divider mx-auto my-4"></div>
+            <p>Our hospital features state-of-the-art departments staffed by experienced specialists, providing comprehensive care with the latest medical technology and evidence-based treatments.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter buttons -->
+      <div class="department-filter">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Cardiology</button>
+        <button class="filter-btn">Dentist</button>
+        <button class="filter-btn">Homeopathy</button>
+        <button class="filter-btn">Neurology</button>
+        <button class="filter-btn">Pediatrics</button>
+        <button class="filter-btn">Traumatology</button>
+        <button class="filter-btn">Radiology</button>
+      </div>
+
+      <div class="row">
+        <!-- Cardiology -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5">
+            <span class="availability">Available Today</span>
+            <img src="{% static 'images\person-holding-anatomic-heart-model-educational-purpose-1024x683.webp' %}" alt="Cardiology Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Cardiology</h4>
+              <p class="mb-4">Specialized care for heart including diagnostics, treatment and rehabilitation services with advanced cardiac monitoring.</p>
+              <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a>
+			  
+            </div>
+          </div>
+        </div>
+
+        <!-- Dentist -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5">
+            <span class="availability">Available Today</span>
+            <img src="{% static 'images\istockphoto-1349328691-612x612.jpg' %}" alt="Dental Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Dentist</h4>
+              <p class="mb-4">Comprehensive dental care including preventive, restorative, and cosmetic procedures with state-of-the-art equipment.</p>
+			  <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a>
+			  
+             
+            </div>
+          </div>
+        </div>
+
+        <!-- Homeopathy -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5">
+            <span class="availability">Limited Availability</span>
+            <img src="{% static 'images\homeo2.png' %}" alt="Homeopathy Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Homeopathy</h4>
+              <p class="mb-4">Alternative medicine department offering personalized homeopathic treatments for chronic conditions and holistic wellness.</p>
+			  <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a> 
+			  
+       
+            </div>
+          </div>
+        </div>
+
+        <!-- Neurology -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5 mb-lg-0">
+            <span class="availability">Available Tomorrow</span>
+            <img src="{% static 'images\download.jpeg' %}" alt="Neurology Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Neurology</h4>
+              <p class="mb-4">Expert diagnosis and treatment of nervous system disorders with advanced neuroimaging, therapeutic interventions.</p>
+			  <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a> 
+			  
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- Pediatrics -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5 mb-lg-0">
+            <span class="availability">Available Today</span>
+            <img src="{% static 'images\premium_photo-1666299880508-bffece864e96.jpeg' %}" alt="Pediatrics Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Pediatrics</h4>
+              <p class="mb-4">Comprehensive healthcare for infants, children and adolescents with child-friendly facilities and specialized staff.</p>
+              <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a>
+			  
+            </div>
+          </div>
+        </div>
+
+        <!-- Traumatology -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5 mb-lg-0">
+            <span class="availability">Emergency Service</span>
+            <img src="{% static 'images\istockphoto-1330919226-612x612.jpg' %}" alt="Traumatology Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Traumatology</h4>
+              <p class="mb-4">Specialized in treating traumatic injuries with 24/7 emergency care, surgical interventions and rehabilitation services.</p>
+              <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a>
+			  
+            </div>
+          </div>
+        </div>
+
+        <!-- Radiology -->
+        <div class="col-lg-4 col-md-6">
+          <div class="department-block mb-5 mb-lg-0">
+            <span class="availability">By Appointment</span>
+            <img src="{% static 'images\doctor-getting-patient-ready-ct-scan_23-2149367401.avif' %}" alt="Radiology Department" class="img-fluid w-100">
+            <div class="content">
+              <h4 class="mt-4 mb-2 title-color">Radiology</h4>
+              <p class="mb-4">Advanced diagnostic imaging services including X-ray, CT, MRI and ultrasound with prompt and accurate results.</p>
+              <a href="#" class="read-more">Learn More <i class="ml-2">→</i></a>
+			  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterBtns.forEach(b => b.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Filter functionality would go here in a real implementation
+          // This is just a UI demonstration
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

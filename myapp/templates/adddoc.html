@@ -1,0 +1,739 @@
+{% extends "docheader.html" %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Application - MediCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --text-dark: #111827;
+            --text-medium: #4b5563;
+            --text-light: #9ca3af;
+            --border: #e5e7eb;
+            --background: #f9fafb;
+            --white: #ffffff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --error: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .form-container {
+            background-color: var(--white);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+            background: var(--primary);
+        }
+        
+        .form-section {
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-section:last-child {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.75rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-light);
+            border-radius: 50%;
+        }
+        
+        .form-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-medium);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text-dark);
+            background-color: var(--white);
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            outline: none;
+        }
+        
+        input[type="file"] {
+            padding: 12px 0;
+            cursor: pointer;
+        }
+        
+        input[type="file"]::file-selector-button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border: none;
+            font-weight: 500;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        input[type="file"]::file-selector-button:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .checkbox-item {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .checkbox-item input {
+            margin-right: 12px;
+            accent-color: var(--primary);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            display: inline;
+            margin-bottom: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            border-radius: 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 50px auto 0;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        
+        .error-msg {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 4px solid var(--error);
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col-md-6 {
+            width: 50%;
+            padding: 0 15px;
+        }
+        
+        .page-title-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 60px 0;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .page-title-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: var(--white);
+            clip-path: polygon(0 0, 100% 100%, 100% 100%, 0% 100%);
+        }
+        
+        .page-title-section h1 {
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .page-title-section span {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .required-mark {
+            color: var(--error);
+            margin-left: 4px;
+        }
+        
+        .form-info {
+            background-color: var(--primary-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-info i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+        
+        .form-info p {
+            margin: 0;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .doctor-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .doctor-icon i {
+            font-size: 40px;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--border);
+            border-radius: 3px;
+            margin: 20px 0 40px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+            transform-origin: left;
+            transform: scaleX(0);
+            animation: progress 1s ease-out forwards;
+        }
+
+        @keyframes progress {
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .form-instructions {
+            margin-bottom: 30px;
+            color: var(--text-medium);
+        }
+
+        .asterisk-note {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-6 {
+                width: 100%;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .section-title i {
+                width: 35px;
+                height: 35px;
+                font-size: 1.4rem;
+            }
+
+            .page-title-section h1 {
+                font-size: 2rem;
+            }
+
+            .submit-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-title-section">
+        <div class="container">
+            <div class="block text-center">
+                <span>Join Our Medical Team</span>
+                <h1>Doctor Application Form</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if msg %}
+        <div class="error-msg">
+            <i class="fas fa-exclamation-circle"></i> {{ msg }}
+        </div>
+        {% endif %}
+        
+        <div class="form-info">
+            <i class="fas fa-info-circle"></i>
+            <p>Please complete all fields marked with an asterisk (*). Your application will be reviewed by our medical board within 7 business days.</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Medical Professional Registration</h2>
+                <div class="doctor-icon">
+                    <i class="fas fa-user-md"></i>
+                </div>
+            </div>
+            
+            <div class="form-instructions">
+                <p>Thank you for your interest in joining our medical team. Please provide accurate information to expedite the review process.</p>
+            </div>
+            
+            <div class="progress-bar"></div>
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-user-md"></i>Personal Information</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Full Name<span class="required-mark">*</span></label>
+                                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="profile_image">Profile Image</label>
+                                <input type="file" id="profile_image" name="profile_image" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="years_of_experience">Years of Experience<span class="required-mark">*</span></label>
+                                <input type="number" id="years_of_experience" name="years_of_experience" min="0" required placeholder="e.g., 5">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="patients_treated">Patients Treated<span class="required-mark">*</span></label>
+                                <input type="number" id="patients_treated" name="patients_treated" min="0" required placeholder="e.g., 1000">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="biography">Professional Biography</label>
+                        <textarea id="biography" name="biography" placeholder="Share your professional journey, achievements, and philosophy of care..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-graduation-cap"></i>Professional Qualifications</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="specialization">Specialization<span class="required-mark">*</span></label>
+                                <select id="specialization" name="specialization" required>
+                                    <option value="">Select Specialization</option>
+                                    <option value="Cardiology">Cardiology</option>
+                                    <option value="Dentist">Dentist</option>
+                                    <option value="Homeopathy">Homeopathy</option>
+                                    <option value="Neurology">Neurology</option>
+                                    <option value="Pediatrics">Pediatrics</option>
+                                    <option value="Traumatology">Traumatology</option>
+                                    <option value="Radiology">Radiology</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="highest_qualification">Highest Qualification<span class="required-mark">*</span></label>
+                                <select id="highest_qualification" name="highest_qualification" required>
+                                    <option value="">Select Qualification</option>
+                                    <option value="MBBS">MBBS</option>
+                                    <option value="MD">MD</option>
+                                    <option value="MS">MS</option>
+                                    <option value="DM">DM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="position">Position<span class="required-mark">*</span></label>
+                                <select id="position" name="position" required>
+                                    <option value="">Select Position</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                    <option value="Consultant">Consultant</option>
+                                    <option value="Head of Department">Head of Department</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="languages">Primary Language<span class="required-mark">*</span></label>
+                                <select id="languages" name="languages" required>
+                                    <option value="">Select Language</option>
+                                    <option value="English">English</option>
+                                    <option value="Spanish">Spanish</option>
+                                    <option value="French">French</option>
+                                    <option value="German">German</option>
+                                    <option value="Chinese">Chinese</option>
+                                    <option value="Hindi">Hindi</option>
+                                    <option value="Arabic">Arabic</option>
+                                    <option value="Russian">Russian</option>
+                                    <option value="Portuguese">Portuguese</option>
+                                    <option value="Japanese">Japanese</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-dollar-sign"></i>Fee Structure</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="consultation_fee">Consultation Fee<span class="required-mark">*</span></label>
+                                <input type="number" id="consultation_fee" name="consultation_fee" min="0" required placeholder="Enter amount">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="emergency_fee">Emergency Fee<span class="required-mark">*</span></label>
+                                <input type="number" id="emergency_fee" name="emergency_fee" min="0" required placeholder="Enter amount">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="surgery_fee">Surgery Fee (if applicable)<span class="required-mark">*</span></label>
+                        <input type="number" id="surgery_fee" name="surgery_fee" min="0" required placeholder="Enter amount">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-calendar-alt"></i>Availability</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="morning_availability">Morning Hours Available</label>
+                                <input type="number" id="morning_availability" name="morning_availability" min="0" max="5" placeholder="Hours (0-5)">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="afternoon_availability">Afternoon Hours Available</label>
+                                <input type="number" id="afternoon_availability" name="afternoon_availability" min="0" max="5" placeholder="Hours (0-5)">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="evening_availability">Evening Hours Available</label>
+                        <input type="number" id="evening_availability" name="evening_availability" min="0" max="5" placeholder="Hours (0-5)">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-plus-circle"></i>Additional Services</h2>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="telemedicine" name="telemedicine">
+                            <label for="telemedicine">Telemedicine</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="emergency_service" name="emergency_service">
+                            <label for="emergency_service">Emergency Service</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="home_visits" name="home_visits">
+                            <label for="home_visits">Home Visits</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="international_patients" name="international_patients">
+                            <label for="international_patients">International Patients</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="insurance_accepted" name="insurance_accepted">
+                            <label for="insurance_accepted">Insurance Accepted</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="research_publications" name="research_publications">
+                            <label for="research_publications">Research Publications</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="multilingual" name="multilingual">
+                            <label for="multilingual">Multilingual</label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="weekend_availability" name="weekend_availability">
+                            <label for="weekend_availability">Weekend Availability</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Application</button>
+                
+                <div class="asterisk-note">
+                    <p>Fields marked with <span class="required-mark">*</span> are required</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling to required fields when form is submitted
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const requiredFields = document.querySelectorAll('[required]');
+            
+            for (let field of requiredFields) {
+                if (!field.value) {
+                    e.preventDefault();
+                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    field.focus();
+                    break;
+                }
+            }
+        });
+        
+        // Add animation to form sections on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.form-section');
+            
+            function checkSections() {
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight * 0.85) {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Set initial styles
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+            
+            // Check sections on load and scroll
+            checkSections();
+            window.addEventListener('scroll', checkSections);
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

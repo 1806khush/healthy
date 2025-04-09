@@ -1,0 +1,647 @@
+{% extends 'docheader.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Modern Gradient Animation */
+    .doctor-form-container {
+        background: linear-gradient(135deg, #f0f8ff, #e6f2ff, #d9ebff, #e6f2ff, #f0f8ff);
+        background-size: 500% 500%;
+        animation: gradient 15s ease infinite;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12), 0 10px 20px rgba(0,0,0,0.08);
+        border: 1px solid rgba(255,255,255,0.2);
+        overflow: hidden;
+        position: relative;
+        margin: 30px 0;
+    }
+    
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Form Section Styling */
+    .form-section {
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+    
+    .form-section:last-child {
+        border-bottom: none;
+    }
+    
+    .form-section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #3a86ff;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-section-title i {
+        margin-right: 10px;
+    }
+    
+    /* Form Controls */
+    .form-control {
+        border-radius: 8px;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        margin-bottom: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: #3a86ff;
+        box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Custom Checkbox Styling */
+    .custom-checkbox {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        font-size: 1rem;
+        user-select: none;
+        line-height: 22px;
+    }
+    
+    .custom-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+    
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+    
+    .custom-checkbox:hover input ~ .checkmark {
+        background-color: #f0f0f0;
+    }
+    
+    .custom-checkbox input:checked ~ .checkmark {
+        background-color: #3a86ff;
+        border-color: #3a86ff;
+    }
+    
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    
+    .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+    
+    .custom-checkbox .checkmark:after {
+        left: 8px;
+        top: 4px;
+        width: 6px;
+        height: 11px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+    
+    /* Button Styling */
+    .btn-update {
+        background: linear-gradient(45deg, #3a86ff, #5e9fff);
+        color: #fff;
+        border: none;
+        padding: 15px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(58, 134, 255, 0.2);
+    }
+    
+    .btn-update:hover {
+        background: linear-gradient(45deg, #2a76ef, #4e8fef);
+        transform: translateY(-2px);
+        box-shadow: 0 15px 25px rgba(58, 134, 255, 0.3);
+    }
+    
+    /* File Upload Styling */
+    .file-upload {
+        position: relative;
+        overflow: hidden;
+        margin: 20px 0;
+        border-radius: 8px;
+        border: 2px dashed #d0d0d0;
+        background-color: #fafafa;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .file-upload:hover {
+        border-color: #3a86ff;
+        background-color: #f5f9ff;
+    }
+    
+    .file-upload input[type="file"] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .file-upload-label {
+        display: block;
+        color: #666;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    
+    .file-upload-icon {
+        font-size: 2rem;
+        color: #3a86ff;
+        margin-bottom: 10px;
+    }
+    
+    /* Profile Image */
+    .profile-image-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px;
+    }
+    
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .profile-image-overlay {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #3a86ff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        cursor: pointer;
+    }
+    
+    /* Alert Styling */
+    .custom-alert {
+        border-radius: 8px;
+        padding: 15px 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        border-left: 5px solid #ff3a3a;
+        background-color: #fff;
+        color: #333;
+        margin: 20px 0;
+    }
+    
+    /* Two Column Layout for Form Groups */
+    @media (min-width: 768px) {
+        .form-row {
+            display: flex;
+            margin-right: -15px;
+            margin-left: -15px;
+            flex-wrap: wrap;
+        }
+        
+        .form-group-col {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 15px;
+            margin-bottom: 1.5rem;
+        }
+    }
+    
+    /* Form Title */
+    .form-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #333;
+        text-align: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+        padding-top: 1rem;
+    }
+    
+    .form-title:after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: #3a86ff;
+        margin: 15px auto 0;
+        border-radius: 2px;
+    }
+    
+    /* Availability Legend */
+    .availability-legend {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .legend-color {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin-right: 5px;
+        flex-shrink: 0;
+    }
+    
+    /* Input Group Styling */
+    .input-group {
+        margin-bottom: 1rem;
+    }
+    
+    .input-group-prepend {
+        display: flex;
+    }
+    
+    .input-group-text {
+        display: flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem 0 0 0.25rem;
+        border-right: 0;
+    }
+    
+    /* Special Services Section */
+    .special-services-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -15px;
+    }
+    
+    .special-services-col {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 15px;
+    }
+    
+    @media (max-width: 767.98px) {
+        .special-services-col {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+    
+    /* Fix for Select element to match other form elements */
+    select.form-control {
+        height: auto;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 8.825l-4.2-4.2 1.4-1.4L6 6.025l2.8-2.8 1.4 1.4z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        padding-right: 2rem;
+    }
+
+    /* Fix for textarea */
+    textarea.form-control {
+        min-height: 100px;
+    }
+    
+    /* Enhanced color for option elements */
+    option[style*="background-color: #ffe6e6"] {
+        background-color: #ffe6e6 !important;
+        color: #333;
+    }
+    
+    option[style*="background-color: #fff2e6"] {
+        background-color: #fff2e6 !important;
+        color: #333;
+    }
+    
+    option[style*="background-color: #e6ffe6"] {
+        background-color: #e6ffe6 !important;
+        color: #333;
+    }
+</style>
+
+<!-- Alert Message -->
+{% if msg %}
+<div class="custom-alert text-center my-4" role="alert">
+    <i class="fas fa-exclamation-circle mr-2"></i> {{ msg }}
+</div>
+{% endif %}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="doctor-form-container p-5">
+                    <h2 class="form-title">Update Doctor Profile</h2>
+                    
+                    <form method="post" 
+                          action="{% url 'updatedoc' pk=doctor.pk %}" 
+                          class="contact-form"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Profile Image Section -->
+                        <div class="text-center mb-5">
+                            {% if doctor.profile_image %}
+                            <div class="profile-image-container">
+                                <img src="{{doctor.profile_image.url}}" alt="Doctor Image" class="profile-image">
+                                <div class="profile-image-overlay">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="profile-image-container">
+                                <img src="{% static 'images/doctor-placeholder.jpg' %}" alt="Doctor Image" class="profile-image">
+                                <div class="profile-image-overlay">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="file-upload">
+                                <i class="fas fa-cloud-upload-alt file-upload-icon"></i>
+                                <span class="file-upload-label">Choose a profile image</span>
+                                <input type="file" name="profile_image">
+                            </div>
+                        </div>
+                        
+                        <!-- Basic Details Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-user-md"></i> Basic Details
+                            </h3>
+                            
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Doctor Name" name="name" value="{{doctor.name}}" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group form-group-col">
+                                    <select class="form-control" name="specialization" required>
+                                        <option value="" hidden>-- Select Specialization --</option>
+                                        <option value="Cardiology" {% if doctor.specialization == "Cardiology" %}selected{% endif %}>Cardiology</option>
+                                        <option value="Dentist" {% if doctor.specialization == "Dentist" %}selected{% endif %}>Dentist</option>
+                                        <option value="Homeopathy" {% if doctor.specialization == "Homeopathy" %}selected{% endif %}>Homeopathy</option>
+                                        <option value="Neurology" {% if doctor.specialization == "Neurology" %}selected{% endif %}>Neurology</option>
+                                        <option value="Pediatrics" {% if doctor.specialization == "Pediatrics" %}selected{% endif %}>Pediatrics</option>
+                                        <option value="Traumatology" {% if doctor.specialization == "Traumatology" %}selected{% endif %}>Traumatology</option>
+                                        <option value="Radiology" {% if doctor.specialization == "Radiology" %}selected{% endif %}>Radiology</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group form-group-col">
+                                    <input type="text" class="form-control" placeholder="Highest Qualification" name="highest_qualification" value="{{doctor.highest_qualification}}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group form-group-col">
+                                    <input type="text" class="form-control" placeholder="Position" name="position" value="{{doctor.position}}" required>
+                                </div>
+                                
+                                <div class="form-group form-group-col">
+                                    <input type="number" class="form-control" placeholder="Years of Experience" name="years_of_experience" value="{{doctor.years_of_experience}}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group form-group-col">
+                                    <input type="text" class="form-control" placeholder="Languages" name="languages" value="{{doctor.languages}}" required>
+                                </div>
+                                
+                                <div class="form-group form-group-col">
+                                    <input type="number" class="form-control" placeholder="Patients Treated" name="patients_treated" value="{{doctor.patients_treated}}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Biography" name="biography" rows="4">{{doctor.biography}}</textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Fees Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-dollar-sign"></i> Consultation Fees
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group form-group-col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-stethoscope"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Consultation Fee" name="consultation_fee" value="{{doctor.consultation_fee}}" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group form-group-col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-ambulance"></i></span>
+                                        </div>
+                                        <input type="number" class="form-control" placeholder="Emergency Fee" name="emergency_fee" value="{{doctor.emergency_fee}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-hospital"></i></span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="Surgery Fee" name="surgery_fee" value="{{doctor.surgery_fee}}" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Availability Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="far fa-clock"></i> Availability
+                            </h3>
+                            
+                            <div class="availability-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #e74c3c;"></div>
+                                    <span>Not Available</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #f39c12;"></div>
+                                    <span>Limited</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #2ecc71;"></div>
+                                    <span>Fully Available</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group form-group-col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-sun"></i></span>
+                                        </div>
+                                        <select class="form-control" name="morning_availability" required>
+                                            <option value="" hidden>-- Morning Availability --</option>
+                                            <option value="0" {% if doctor.morning_availability == 0 %}selected{% endif %} style="background-color: #ffe6e6;">Not Available</option>
+                                            <option value="1" {% if doctor.morning_availability == 1 %}selected{% endif %} style="background-color: #fff2e6;">Limited Availability</option>
+                                            <option value="2" {% if doctor.morning_availability == 2 %}selected{% endif %} style="background-color: #e6ffe6;">Fully Available</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group form-group-col">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-cloud-sun"></i></span>
+                                        </div>
+                                        <select class="form-control" name="afternoon_availability" required>
+                                            <option value="" hidden>-- Afternoon Availability --</option>
+                                            <option value="0" {% if doctor.afternoon_availability == 0 %}selected{% endif %} style="background-color: #ffe6e6;">Not Available</option>
+                                            <option value="1" {% if doctor.afternoon_availability == 1 %}selected{% endif %} style="background-color: #fff2e6;">Limited Availability</option>
+                                            <option value="2" {% if doctor.afternoon_availability == 2 %}selected{% endif %} style="background-color: #e6ffe6;">Fully Available</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-moon"></i></span>
+                                    </div>
+                                    <select class="form-control" name="evening_availability" required>
+                                        <option value="" hidden>-- Evening Availability --</option>
+                                        <option value="0" {% if doctor.evening_availability == 0 %}selected{% endif %} style="background-color: #ffe6e6;">Not Available</option>
+                                        <option value="1" {% if doctor.evening_availability == 1 %}selected{% endif %} style="background-color: #fff2e6;">Limited Availability</option>
+                                        <option value="2" {% if doctor.evening_availability == 2 %}selected{% endif %} style="background-color: #e6ffe6;">Fully Available</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Special Services Section -->
+                        <div class="form-section">
+                            <h3 class="form-section-title">
+                                <i class="fas fa-star"></i> Special Services
+                            </h3>
+                            
+                            <div class="special-services-row">
+                                <div class="special-services-col">
+                                    <label class="custom-checkbox">
+                                        Telemedicine
+                                        <input type="checkbox" name="telemedicine" {% if doctor.telemedicine %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        Emergency Service
+                                        <input type="checkbox" name="emergency_service" {% if doctor.emergency_service %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        Home Visits
+                                        <input type="checkbox" name="home_visits" {% if doctor.home_visits %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        International Patients
+                                        <input type="checkbox" name="international_patients" {% if doctor.international_patients %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="special-services-col">
+                                    <label class="custom-checkbox">
+                                        Insurance Accepted
+                                        <input type="checkbox" name="insurance_accepted" {% if doctor.insurance_accepted %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        Research Publications
+                                        <input type="checkbox" name="research_publications" {% if doctor.research_publications %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        Multilingual
+                                        <input type="checkbox" name="multilingual" {% if doctor.multilingual %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    
+                                    <label class="custom-checkbox">
+                                        Weekend Availability
+                                        <input type="checkbox" name="weekend_availability" {% if doctor.weekend_availability %}checked{% endif %}>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-update">
+                                <i class="fas fa-save mr-2"></i> Update Doctor Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

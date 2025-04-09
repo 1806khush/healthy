@@ -1,0 +1,241 @@
+{% extends '1header.html' %} 
+{% load static %} 
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Services - What We Do</title>
+    <style>
+        /* Custom styling for enhanced services page */
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .service-img {
+            height: 220px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .service-content {
+            padding: 25px;
+            background: #fff;
+        }
+        
+        .service-title {
+            color: #223a66;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .service-description {
+            color: #6F8BA4;
+            line-height: 1.6;
+        }
+        
+        .service-link {
+            margin-top: 15px;
+            display: inline-block;
+            color: #e12454;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .service-link:hover {
+            color: #223a66;
+        }
+        
+        .page-header {
+            background: linear-gradient(rgba(14, 29, 52, 0.8), rgba(14, 29, 52, 0.8)), url("{% static 'images/bg/hero-bg.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 70px;
+        }
+        
+        .section-title h2 {
+            color: #223a66;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .section-title .divider {
+            height: 4px;
+            width: 70px;
+            background: #e12454;
+            margin: 0 auto 20px;
+        }
+        
+        .section-title p {
+            color: #6F8BA4;
+            width: 70%;
+            margin: 0 auto;
+        }
+        
+        .cta-section {
+            background: linear-gradient(rgba(34, 58, 102, 0.95), rgba(34, 58, 102, 0.95)), url("{% static 'images/bg/cta-bg.jpg' %}");
+            background-size: cover;
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .cta-content {
+            color: #fff;
+            padding-right: 30px;
+        }
+        
+        .cta-content h2 {
+            font-size: 38px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+        
+        .cta-content .highlight {
+            color: #e12454;
+        }
+        
+        .btn-appointment {
+            background: #e12454;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .btn-appointment:hover {
+            background: #fff;
+            color: #e12454;
+        }
+        
+        .btn-appointment i {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header Section -->
+	<section class="page-title bg-1">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="block text-center">
+						<span class="text-white animated fadeInDown">Professional Healthcare</span>
+						<h1 class="text-capitalize mb-5 text-lg animated fadeIn">Our Medical Services</h1>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <!-- Introduction Section -->
+    <section class="section pt-5">
+        <div class="container">
+            <div class="section-title text-center">
+                <div class="divider"></div>
+                <h2>Exceptional Care for Your Health</h2>
+                <p>Our team of experienced healthcare professionals is committed to providing you with the highest quality medical services using cutting-edge technology and compassionate care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-1.jpg' %}" alt="Pediatric Care" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Pediatric Care</h4>
+                            <p class="service-description">Comprehensive healthcare services for children from infancy through adolescence, focusing on preventive care, developmental milestones, and treating childhood illnesses.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-2.jpg' %}" alt="Personal Care" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Personal Care</h4>
+                            <p class="service-description">Individualized assistance with daily activities and personal hygiene, designed to enhance quality of life and maintain dignity for patients requiring additional support.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-3.jpg' %}" alt="Advanced Imaging" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Advanced Imaging</h4>
+                            <p class="service-description">State-of-the-art CT scans and imaging technologies providing detailed views of internal organs, bones, and tissues to aid in precise diagnosis and treatment planning.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-4.jpg' %}" alt="Orthopedic Surgery" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Orthopedic Surgery</h4>
+                            <p class="service-description">Specialized joint replacement procedures and orthopedic surgeries performed by expert surgeons using the latest techniques for improved mobility and pain relief.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-6.jpg' %}" alt="Diagnostic Services" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Diagnostic Services</h4>
+                            <p class="service-description">Comprehensive examination and diagnostic services utilizing advanced technology and clinical expertise to identify health conditions with accuracy and efficiency.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-card">
+                        <img src="{% static 'images/service/service-8.jpg' %}" alt="Neurology Care" class="service-img">
+                        <div class="service-content">
+                            <h4 class="service-title">Neurology Care</h4>
+                            <p class="service-description">Specialized treatment and support for neurological conditions including Alzheimer's disease, with a focus on improving quality of life and managing symptoms effectively.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+  
+    <!-- Testimonial Section -->
+    
+</body>
+</html>
+{% endblock %}

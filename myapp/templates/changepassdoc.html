@@ -1,0 +1,60 @@
+{% extends 'docheader.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    .bg-light.contact-form {
+        background: linear-gradient(135deg, #f8f9fa, #e2e6ea, #d4d9df, #e2e6ea, #f8f9fa);
+        background-size: 500% 500%;
+        animation: gradient 18s ease infinite;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.07);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+
+
+
+{% if msg %}
+<div class="alert alert-danger" role="alert">
+    {{ msg }}
+</div>
+{% endif %}
+
+<section class="ftco-section contact-section">
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="col-md-8 block-9 mb-md-5">
+                <form method="post" action="{% url 'changepass' %}" class="bg-light p-5 contact-form text-center">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Your Old Password" name="opassword" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Your New Password" name="npassword" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Confirm New Password" name="cnpassword" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary py-3 px-5">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
+{% endblock %}

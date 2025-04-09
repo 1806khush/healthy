@@ -1,0 +1,145 @@
+{% extends "1header.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-title bg-1" style="background: url('{% static 'images/bg/banner.jpg' %}') no-repeat; background-size: cover; background-position: center;">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">Welcome Back</span>
+          <h1 class="text-capitalize mb-5 text-lg">Login</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% if msg %}
+<div class="alert alert-danger" role="alert">
+    {{msg}}
+</div>
+{% endif %}
+<section class="section login-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 mx-auto">
+        <div class="card shadow-lg">
+          <div class="card-body p-5">
+            <h2 class="text-center mb-5" style="color: #223a66;">Access Your Account</h2>
+            
+            <form action="{% url 'login' %}" method="POST" class="login-form">
+              {% csrf_token %}
+              
+              <div class="form-group">
+                <label for="email" style="color: #223a66; font-weight: 500;">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+              </div>
+              
+              <div class="form-group mt-4">
+                <label for="password" style="color: #223a66; font-weight: 500;">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+              </div>
+              
+              <div class="d-flex justify-content-between mt-4">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="remember">
+                  <label class="form-check-label" for="remember">Remember me</label>
+                </div>
+                <a href="{% url 'forgotpass' %}" style="color: #e12454; font-weight: 500;">Forgot Password?</a>
+              </div>
+              
+              <div class="text-center mt-5">
+                <button type="submit" class="btn btn-main btn-round-full btn-lg" style="background-color: #e12454; color: white; border: none; padding: 12px 40px; transition: all 0.3s ease;">Login</button>
+              </div>
+            </form>
+            
+            <div class="mt-5 text-center">
+              <p>Don't have an account? <a href="{% url 'signup' %}" style="color: #e12454; font-weight: 500;">Sign Up</a></p>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .login-section {
+    padding: 80px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .form-control {
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    box-shadow: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #e12454;
+    box-shadow: 0 0 0 0.2rem rgba(225, 36, 84, 0.15);
+  }
+  
+  .btn-main {
+    box-shadow: 0 15px 25px rgba(225, 36, 84, 0.25);
+  }
+  
+  .btn-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 30px rgba(225, 36, 84, 0.3);
+    background-color: #d41f4b !important;
+  }
+  
+  .social-btn {
+    transition: all 0.3s ease;
+  }
+  
+  .social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  label {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  
+  .page-title {
+    padding: 120px 0;
+    position: relative;
+  }
+  
+  .page-title .block h1 {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 700;
+  }
+  
+  .page-title .block span {
+    font-size: 20px;
+    font-weight: 300;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(34, 58, 102, 0.8);
+  }
+</style>
+{% endblock %}

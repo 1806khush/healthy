@@ -1,0 +1,845 @@
+{% extends '1header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Details - MediCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #223a66;
+            --secondary: #3498db;
+            --accent: #e12454;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #6F8BA4;
+            --gradient-primary: linear-gradient(135deg, #223a66 0%, #3498db 100%);
+            --gradient-accent: linear-gradient(135deg, #e12454 0%, #f5365c 100%);
+            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.07);
+            --shadow-medium: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --radius-sm: 8px;
+            --radius-md: 15px;
+            --radius-lg: 25px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .page-title {
+            position: relative;
+            background-image: url('{% static "images/bg/medical-bg.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            padding: 140px 0 180px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0.9;
+            z-index: -1;
+        }
+        
+        .page-title .block {
+            text-align: center;
+            color: white;
+        }
+
+        .page-title .block span {
+            display: inline-block;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+        }
+
+        .page-title .block h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .doctor-details-container {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-medium);
+            margin-top: -100px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        
+        .doctor-header {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .doctor-image-container {
+            width: 280px;
+            height: 280px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-right: 40px;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .doctor-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+        }
+        
+        .doctor-image-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .doctor-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .doctor-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .doctor-basic-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .doctor-name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .doctor-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50px;
+        }
+        
+        .doctor-specialty {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        
+        .doctor-highlight {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+            margin-bottom: 15px;
+            padding: 8px 15px;
+            background: #f8fafc;
+            border-radius: 50px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+            transition: var(--transition);
+        }
+        
+        .highlight-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .highlight-item i {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        .highlight-item span {
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .doctor-appointment-btn {
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 10px;
+            max-width: 250px;
+            box-shadow: 0 5px 15px rgba(225, 36, 84, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .doctor-appointment-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+        
+        .doctor-appointment-btn:hover::before {
+            left: 100%;
+        }
+        
+        .doctor-appointment-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(225, 36, 84, 0.4);
+        }
+        
+        .doctor-appointment-btn i {
+            margin-right: 8px;
+        }
+        
+        .doctor-content {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--light);
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 70px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .doctor-biography {
+            margin-bottom: 50px;
+            color: var(--gray);
+            line-height: 1.8;
+            position: relative;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .doctor-biography p {
+            position: relative;
+        }
+        
+        .doctor-biography p::before {
+            content: '"';
+            font-size: 5rem;
+            color: rgba(0, 0, 0, 0.05);
+            position: absolute;
+            top: -30px;
+            left: -20px;
+            font-family: serif;
+        }
+        
+        .qualification-list {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
+        
+        .qualification-item {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 25px;
+            min-width: 200px;
+            flex: 1;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .qualification-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .qualification-item h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .qualification-item p {
+            font-size: 1rem;
+            color: var(--gray);
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        .schedule-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
+        
+        .schedule-day {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 25px;
+            min-width: 220px;
+            flex: 1;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+        }
+        
+        .schedule-day:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .schedule-day h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.05);
+        }
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-item span:first-child {
+            color: var(--gray);
+        }
+        
+        .schedule-item span:last-child {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .fee-info {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
+        
+        .fee-item {
+            background-color: white;
+            border-radius: var(--radius-md);
+            padding: 25px;
+            min-width: 200px;
+            flex: 1;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fee-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+        }
+        
+        .fee-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .fee-item h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .fee-item p {
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .services-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .service-item {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: var(--radius-sm);
+            padding: 15px 20px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .service-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+            border-left-color: var(--accent);
+        }
+        
+        .service-item i {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-right: 12px;
+        }
+        
+        .service-item span {
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .cta-section {
+            margin-top: 50px;
+            text-align: center;
+            padding: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .cta-section h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-btn {
+            background: white;
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-block;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        @media (max-width: 991px) {
+            .doctor-header {
+                padding: 30px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .doctor-image-container {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .doctor-highlight {
+                justify-content: center;
+            }
+            
+            .doctor-name::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .doctor-appointment-btn {
+                margin: 20px auto 0;
+            }
+            
+            .doctor-content {
+                padding: 30px;
+            }
+            
+            .qualification-list, .schedule-container, .fee-info {
+                flex-direction: column;
+            }
+            
+            .qualification-item, .schedule-day, .fee-item {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-title {
+                padding: 100px 0 150px;
+            }
+            
+            .page-title .block h1 {
+                font-size: 2.2rem;
+            }
+            
+            .doctor-name {
+                font-size: 2rem;
+            }
+            
+            .doctor-content {
+                padding: 20px;
+            }
+            
+            .doctor-header {
+                padding: 20px;
+            }
+            
+            .doctor-image-container {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .highlight-item {
+                margin-right: 10px;
+                padding: 5px 10px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .qualification-item, .schedule-day, .fee-item, .service-item {
+                padding: 15px;
+            }
+            
+            .service-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Title -->
+    <section class="page-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <span>Doctor Details</span>
+                        <h1>Meet Our Specialist</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+        <div class="doctor-details-container">
+            <!-- Doctor Header with image and basic info -->
+            <div class="doctor-header">
+                <div class="doctor-image-container">
+                    {% if doctor.profile_image %}
+                    <img src="{{ doctor.profile_image.url }}" alt="{{ doctor.name }}" class="doctor-image">
+                    {% else %}
+                    <img src="{% static 'images/team/1.jpg' %}" alt="{{ doctor.name }}" class="doctor-image">
+                    {% endif %}
+                </div>
+                
+                <div class="doctor-basic-info">
+                    <h1 class="doctor-name">{{ doctor.name }}</h1>
+                    <h2 class="doctor-specialty">{{ doctor.specialization }}</h2>
+                    
+                    <div class="doctor-highlight">
+                        <div class="highlight-item">
+                            <i class="fas fa-user-md"></i>
+                            <span>{{ doctor.position }}</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>{{ doctor.highest_qualification }}</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ doctor.years_of_experience }} Years</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-users"></i>
+                            <span>{{ doctor.patients_treated }} Patients</span>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fas fa-language"></i>
+                            <span>{{ doctor.languages }}</span>
+                        </div>
+                    </div>
+                    
+                    <a href="{% url 'appoinment' %}?doctor={{ doctor.id }}" class="doctor-appointment-btn">
+                        <i class="fas fa-calendar-check"></i> Book Appointment
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Doctor Content -->
+            <div class="doctor-content">
+                <!-- Biography Section -->
+                <div class="doctor-biography">
+                    <h3 class="section-title">About Dr. {{ doctor.name }}</h3>
+                    <p>{{ doctor.biography|default:"Dr. is a highly skilled and compassionate medical professional dedicated to providing exceptional patient care. With a strong background in research and clinical practice, they are committed to staying at the forefront of medical advancements to offer the best possible treatments." }}</p>
+                </div>
+                
+                <!-- Qualifications Section -->
+                <h3 class="section-title">Professional Qualifications</h3>
+                <div class="qualification-list">
+                    <div class="qualification-item">
+                        <h4>Specialization</h4>
+                        <p>{{ doctor.specialization }}</p>
+                    </div>
+                    <div class="qualification-item">
+                        <h4>Qualification</h4>
+                        <p>{{ doctor.highest_qualification }}</p>
+                    </div>
+                    <div class="qualification-item">
+                        <h4>Position</h4>
+                        <p>{{ doctor.position }}</p>
+                    </div>
+                    <div class="qualification-item">
+                        <h4>Experience</h4>
+                        <p>{{ doctor.years_of_experience }} Years</p>
+                    </div>
+                </div>
+                
+                <!-- Schedule Section -->
+                <h3 class="section-title">Weekly Schedule</h3>
+                <div class="schedule-container">
+                    <div class="schedule-day">
+                        <h4>Monday - Friday</h4>
+                        {% if doctor.morning_availability > 0 %}
+                        <div class="schedule-item">
+                            <span>Morning:</span>
+                            <span>{{ doctor.morning_availability }} hours</span>
+                        </div>
+                        {% endif %}
+                        {% if doctor.afternoon_availability > 0 %}
+                        <div class="schedule-item">
+                            <span>Afternoon:</span>
+                            <span>{{ doctor.afternoon_availability }} hours</span>
+                        </div>
+                        {% endif %}
+                        {% if doctor.evening_availability > 0 %}
+                        <div class="schedule-item">
+                            <span>Evening:</span>
+                            <span>{{ doctor.evening_availability }} hours</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="schedule-day">
+                        <h4>Weekend</h4>
+                        {% if doctor.weekend_availability %}
+                        <div class="schedule-item">
+                            <span>Available</span>
+                            <span><i class="fas fa-check-circle" style="color: #2ecc71;"></i></span>
+                        </div>
+                        {% else %}
+                        <div class="schedule-item">
+                            <span>Available</span>
+                            <span><i class="fas fa-times-circle" style="color: #e74c3c;"></i></span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Fee Structure -->
+                <h3 class="section-title">Fee Structure</h3>
+                <div class="fee-info">
+                    <div class="fee-item">
+                        <h4>Consultation Fee</h4>
+                        <p>${{ doctor.consultation_fee }}</p>
+                    </div>
+                    <div class="fee-item">
+                        <h4>Emergency Fee</h4>
+                        <p>${{ doctor.emergency_fee }}</p>
+                    </div>
+                    {% if doctor.surgery_fee > 0 %}
+                    <div class="fee-item">
+                        <h4>Surgery Fee</h4>
+                        <p>${{ doctor.surgery_fee }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Additional Services -->
+                <h3 class="section-title">Additional Services</h3>
+                <div class="services-list">
+                    {% if doctor.telemedicine %}
+                    <div class="service-item">
+                        <i class="fas fa-video"></i>
+                        <span>Telemedicine</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.emergency_service %}
+                    <div class="service-item">
+                        <i class="fas fa-ambulance"></i>
+                        <span>Emergency Service</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.home_visits %}
+                    <div class="service-item">
+                        <i class="fas fa-home"></i>
+                        <span>Home Visits</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.international_patients %}
+                    <div class="service-item">
+                        <i class="fas fa-globe"></i>
+                        <span>International Patients</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.insurance_accepted %}
+                    <div class="service-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Insurance Accepted</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.research_publications %}
+                    <div class="service-item">
+                        <i class="fas fa-book-open"></i>
+                        <span>Research Publications</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if doctor.multilingual %}
+                    <div class="service-item">
+                        <i class="fas fa-comments"></i>
+                        <span>Multilingual</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Call to action -->
+        <div class="cta-section">
+            <h3>Ready to Get Started?</h3>
+            <p>Schedule an appointment with Dr. {{ doctor.name }} today and take the first step towards better health.</p>
+            <a href="{% url 'appoinment' %}?doctor={{ doctor.id }}" class="cta-btn">
+                <i class="fas fa-calendar-check"></i> Book Your Appointment
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

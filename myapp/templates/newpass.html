@@ -1,0 +1,48 @@
+{% extends '1header.html' %} 
+{% block content %} 
+<div class="container">
+  <div class="card shadow-lg border-0 rounded-lg my-5">
+    <div class="card-header bg-primary text-white">
+      <h2 class="text-center font-weight-bold my-3">Create New Password</h2>
+    </div>
+    <div class="card-body p-4">
+      {% if msg %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i> {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+      
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-4">
+          <label for="password" class="form-label fw-bold">New Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="password" name="password" 
+                  placeholder="Enter your new password" required>
+          </div>
+        </div>
+        
+        <div class="form-group mb-4">
+          <label for="cpassword" class="form-label fw-bold">Confirm Password</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="fas fa-key"></i></span>
+            <input type="password" class="form-control" id="cpassword" name="cpassword" 
+                  placeholder="Confirm your password" required>
+          </div>
+        </div>
+        
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas fa-save me-2"></i> Update Password
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer text-center py-3 bg-light">
+      <div class="small">Password must be at least 8 characters long</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

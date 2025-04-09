@@ -1,0 +1,172 @@
+{% extends '1header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<!-- Enhanced Hero Section with Parallax Effect -->
+<section class="page-title bg-1" style="background-attachment: fixed; background-position: center; padding: 120px 0;">
+  <div class="overlay" style="opacity: 0.8; background: linear-gradient(45deg, #3a6186, #89253e);"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white font-weight-bold" style="letter-spacing: 2px; text-transform: uppercase; font-size: 16px;">Book your Seat</span>
+          <h1 class="text-capitalize mb-5 text-lg" style="font-size: 48px; letter-spacing: 1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Appointment</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Appointment Section with Card-Based Design -->
+<section class="appointment section" style="padding: 90px 0; background-color: #f8f9fa;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Appointment Form Card - Centered -->
+      <div class="col-lg-8">
+        <div class="card shadow border-0 mx-auto" style="border-radius: 15px; overflow: hidden; max-width: 800px;">
+          <div class="card-body p-5">
+            <h2 class="mb-2 text-center" style="color: #223645; font-weight: 600; position: relative;">
+              Book an appointment
+              <span style="display: block; width: 50px; height: 3px; background-color: #ee4b4b; margin-top: 10px; margin-left: auto; margin-right: auto;"></span>
+            </h2>
+            <p class="mb-4 text-center" style="color: #6c757d;">Schedule your visit with our expert medical professionals for personalized care and treatment.</p>
+            
+            <form class="appointment-form" method="post" action="{% url 'appoinment' %}">
+              {% csrf_token %}
+              <div class="row">
+                <!-- Department Selection -->
+                <div class="col-lg-6">
+                  <div class="form-group mb-4">
+                    <label for="exampleFormControlSelect1" style="font-weight: 500; color: #223645;">Department</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;"><i class="icofont-hospital" style="color: #ee4b4b;"></i></span>
+                      </div>
+                      <select name="specialization" class="form-control" id="exampleFormControlSelect1" style="border-left: none; height: 50px; border-radius: 0 5px 5px 0;">
+                        <option value="">Choose Department</option>
+                        {% for specialization in specializations %}
+                        <option value="{{ specialization }}">{{ specialization }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Doctor Selection -->
+                <div class="col-lg-6">
+                  <div class="form-group mb-4">
+                    <label for="exampleFormControlSelect2" style="font-weight: 500; color: #223645;">Doctor</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;"><i class="icofont-doctor" style="color: #ee4b4b;"></i></span>
+                      </div>
+                      <select name="doctor" class="form-control" id="exampleFormControlSelect2" style="border-left: none; height: 50px; border-radius: 0 5px 5px 0;">
+                        <option value="">Select Doctors</option>
+                        {% for i in doctors %}
+                        <option value="{{ i.id }}">Dr.{{ i.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Full Name -->
+                <div class="col-lg-6">
+                  <div class="form-group mb-4">
+                    <label for="name" style="font-weight: 500; color: #223645;">Full Name</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;"><i class="icofont-user" style="color: #ee4b4b;"></i></span>
+                      </div>
+                      <input name="name" id="name" type="text" class="form-control" placeholder="John Doe" style="border-left: none; height: 50px; border-radius: 0 5px 5px 0;">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="col-lg-6">
+                  <div class="form-group mb-4">
+                    <label for="phone" style="font-weight: 500; color: #223645;">Phone Number</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" style="background-color: #f8f9fa; border-right: none;"><i class="icofont-phone" style="color: #ee4b4b;"></i></span>
+                      </div>
+                      <input name="mobile" id="phone" type="number" class="form-control" placeholder="+1 234 567 8900" style="border-left: none; height: 50px; border-radius: 0 5px 5px 0;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="form-group mb-4">
+                <label for="message" style="font-weight: 500; color: #223645;">Your Message</label>
+                <textarea name="reason" id="message" class="form-control" rows="5" placeholder="Briefly describe your medical concerns or questions" style="border-radius: 5px;"></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-main btn-round-full" style="background-color: #ee4b4b; border: none; padding: 12px 32px; font-weight: 600; box-shadow: 0 5px 15px rgba(238, 75, 75, 0.3); transition: all 0.3s;">
+                  Make Appointment <i class="icofont-simple-right ml-2"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add a complementary section for trust factors -->
+<section style="background-color: #fff; padding: 60px 0; border-top: 1px solid #eee;">
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5">
+      <div class="col-lg-7">
+        <h3 style="color: #223645; font-weight: 600;">Why Choose Our Medical Services</h3>
+        <p style="color: #6c757d;">We're dedicated to providing the highest quality healthcare with compassion and expertise.</p>
+      </div>
+    </div>
+    <div class="row">
+      <!-- Trust Factors content remains unchanged -->
+      <!-- Trust Factor 1 -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="text-center p-4" style="background-color: #f8f9fa; border-radius: 10px; height: 100%;">
+          <i class="icofont-doctor-alt" style="font-size: 48px; color: #ee4b4b;"></i>
+          <h5 class="mt-4" style="color: #223645; font-weight: 600;">Expert Doctors</h5>
+          <p style="color: #6c757d; font-size: 14px;">Our team consists of experienced specialists in various fields.</p>
+        </div>
+      </div>
+      
+      <!-- Trust Factor 2 -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="text-center p-4" style="background-color: #f8f9fa; border-radius: 10px; height: 100%;">
+          <i class="icofont-ambulance-cross" style="font-size: 48px; color: #ee4b4b;"></i>
+          <h5 class="mt-4" style="color: #223645; font-weight: 600;">Emergency Care</h5>
+          <p style="color: #6c757d; font-size: 14px;">24/7 emergency services available for urgent medical needs.</p>
+        </div>
+      </div>
+      
+      <!-- Trust Factor 3 -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="text-center p-4" style="background-color: #f8f9fa; border-radius: 10px; height: 100%;">
+          <i class="icofont-laboratory" style="font-size: 48px; color: #ee4b4b;"></i>
+          <h5 class="mt-4" style="color: #223645; font-weight: 600;">Modern Equipment</h5>
+          <p style="color: #6c757d; font-size: 14px;">State-of-the-art facilities and advanced medical technology.</p>
+        </div>
+      </div>
+      
+      <!-- Trust Factor 4 -->
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="text-center p-4" style="background-color: #f8f9fa; border-radius: 10px; height: 100%;">
+          <i class="icofont-heart-beat" style="font-size: 48px; color: #ee4b4b;"></i>
+          <h5 class="mt-4" style="color: #223645; font-weight: 600;">Patient-Centered</h5>
+          <p style="color: #6c757d; font-size: 14px;">Personalized care focused on your comfort and recovery.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</html>
+{% endblock %}

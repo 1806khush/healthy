@@ -1,0 +1,825 @@
+{% extends '1header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardiology Department - Medical Center</title>
+  <style>
+    :root {
+      --primary-color: #223a66;
+      --secondary-color: #e12454;
+      --text-color: #6F8BA4;
+      --heading-color: #222;
+      --light-color: #f4f9fc;
+      --border-color: #e9ecef;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+    
+    .bg-1 {
+      background: url('/api/placeholder/1200/300') no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(34, 58, 102, 0.8);
+    }
+    
+    .page-title {
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .text-white {
+      color: white;
+    }
+    
+    .text-capitalize {
+      text-transform: capitalize;
+    }
+    
+    .mb-5 {
+      margin-bottom: 3rem;
+    }
+    
+    .text-lg {
+      font-size: 2.5rem;
+    }
+    
+    .section {
+      padding: 80px 0;
+    }
+    
+    .section-title {
+      margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+      color: var(--heading-color);
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+    
+    .divider {
+      width: 40px;
+      height: 5px;
+      background: var(--secondary-color);
+    }
+    
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .my-4 {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    
+    .justify-content-center {
+      justify-content: center;
+    }
+    
+    .col-lg-7, .col-lg-8 {
+      flex: 0 0 58.333333%;
+      max-width: 58.333333%;
+      padding: 0 15px;
+    }
+    
+    .col-lg-8 {
+      flex: 0 0 66.666667%;
+      max-width: 66.666667%;
+    }
+    
+    .col-lg-4, .col-md-6 {
+      flex: 0 0 33.333333%;
+      max-width: 33.333333%;
+      padding: 0 15px;
+    }
+    
+    @media (max-width: 992px) {
+      .col-lg-4, .col-lg-7, .col-lg-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .col-md-6, .col-lg-4, .col-lg-7, .col-lg-8 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+    
+    /* Department info styles */
+    .department-info {
+      margin-bottom: 50px;
+    }
+    
+    .department-image {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .department-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .service-item {
+      padding: 20px;
+      border-radius: 5px;
+      background: var(--light-color);
+      margin-bottom: 20px;
+      transition: all .3s ease;
+      border-left: 3px solid var(--secondary-color);
+    }
+    
+    .service-item:hover {
+      background: white;
+      box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+    }
+    
+    .service-item h5 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    /* Doctor card styles */
+    .doctor-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      transition: all .3s ease;
+    }
+    
+    .doctor-card:hover {
+      box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+    
+    .doctor-img {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .doctor-img img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: all .3s ease;
+    }
+    
+    .doctor-card:hover .doctor-img img {
+      transform: scale(1.05);
+    }
+    
+    .doctor-info {
+      padding: 20px;
+    }
+    
+    .doctor-name {
+      color: var(--heading-color);
+      margin-bottom: 5px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .doctor-specialty {
+      color: var(--secondary-color);
+      font-size: 14px;
+      margin-bottom: 15px;
+      display: block;
+    }
+    
+    .schedule-badge {
+      display: inline-block;
+      background: var(--light-color);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .doctor-bio {
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    
+    .appointment-btn {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all .3s ease;
+    }
+    
+    .appointment-btn:hover {
+      background: var(--secondary-color);
+    }
+    
+    .social-links {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .social-link {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--light-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all .3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+    
+    /* Stats section */
+    .stats-section {
+      background: var(--light-color);
+      padding: 60px 0;
+    }
+    
+    .stats-item {
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .stats-number {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .stats-text {
+      color: var(--text-color);
+      font-size: 16px;
+    }
+    
+    /* Testimonials */
+    .testimonial {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+    
+    .testimonial-content {
+      position: relative;
+      padding-left: 40px;
+    }
+    
+    .testimonial-content:before {
+      content: """;
+      font-size: 60px;
+      color: var(--secondary-color);
+      position: absolute;
+      left: 0;
+      top: -20px;
+      font-family: Georgia, serif;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    
+    .testimonial-info h6 {
+      color: var(--heading-color);
+      margin: 0;
+      font-size: 16px;
+    }
+    
+    .testimonial-info span {
+      font-size: 14px;
+      color: var(--text-color);
+    }
+    
+    /* FAQ Section */
+    .faq-item {
+      margin-bottom: 20px;
+    }
+    
+    .faq-question {
+      background: var(--light-color);
+      padding: 15px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      position: relative;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    .faq-question:after {
+      content: "+";
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+    }
+    
+    .faq-question.active:after {
+      content: "-";
+    }
+    
+    .faq-answer {
+      padding: 15px 20px;
+      display: none;
+      border: 1px solid var(--border-color);
+      border-top: none;
+      border-radius: 0 0 5px 5px;
+    }
+    
+    .faq-question.active {
+      border-radius: 5px 5px 0 0;
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .faq-question.active + .faq-answer {
+      display: block;
+    }
+    
+    /* Contact section */
+    .contact-info {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .contact-item {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--light-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: var(--primary-color);
+    }
+    
+    .contact-text h6 {
+      color: var(--heading-color);
+      margin: 0 0 5px 0;
+      font-size: 16px;
+    }
+    
+    .contact-text p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Title -->
+  <section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <span class="text-white">Department Details</span>
+            <h1 class="text-capitalize mb-5 text-lg">Cardiology Department</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Department Info Section -->
+  <section class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="department-info">
+            <div class="department-image">
+              <img src="{% static 'images\person-holding-anatomic-heart-model-educational-purpose-1024x683.webp' %}" alt="Cardiology Department" class="img-fluid">
+            </div>
+            <h2>About Our Cardiology Department</h2>
+            <p>Our Cardiology Department offers comprehensive care for heart and vascular conditions. Equipped with the latest technology and staffed by experienced specialists, we provide accurate diagnosis, effective treatment, and supportive care for patients with heart-related health concerns.</p>
+            <p>Our team of board-certified cardiologists, interventional specialists, cardiac surgeons, and dedicated nursing staff work together to deliver personalized care plans for each patient, ensuring the best possible outcomes and quality of life.</p>
+            
+            <div class="row mt-5">
+              <div class="col-md-6">
+                <div class="service-item">
+                  <h5>Diagnostic Services</h5>
+                  <p>Advanced cardiac testing including echocardiograms, stress tests, and cardiac catheterization.</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="service-item">
+                  <h5>Interventional Cardiology</h5>
+                  <p>Minimally invasive procedures to treat coronary artery disease, heart valve issues, and more.</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="service-item">
+                  <h5>Cardiac Rehabilitation</h5>
+                  <p>Structured programs to help patients recover from heart procedures and improve heart health.</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="service-item">
+                  <h5>Preventive Cardiology</h5>
+                  <p>Risk assessment and management strategies to prevent heart disease and related complications.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4">
+          <div class="contact-info">
+            <h3 class="mb-4">Department Information</h3>
+            
+            <div class="contact-item">
+              <div class="contact-icon">L</div>
+              <div class="contact-text">
+                <h6>Location</h6>
+                <p>Main Building, 3rd Floor, East Wing</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">H</div>
+              <div class="contact-text">
+                <h6>Working Hours</h6>
+                <p>Mon-Fri: 8:00 AM - 5:00 PM</p>
+                <p>Sat: 9:00 AM - 1:00 PM</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">C</div>
+              <div class="contact-text">
+                <h6>Contact</h6>
+                <p>Phone: (123) 456-7890</p>
+                <p>Email: cardiology@medicalcenter.com</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">E</div>
+              <div class="contact-text">
+                <h6>Emergency</h6>
+                <p>24/7 Cardiac Emergency: (123) 456-7999</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-6">
+          <div class="stats-item">
+            <div class="stats-number">5000+</div>
+            <div class="stats-text">Patients Annually</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stats-item">
+            <div class="stats-number">12</div>
+            <div class="stats-text">Specialist Doctors</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stats-item">
+            <div class="stats-number">98%</div>
+            <div class="stats-text">Success Rate</div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="stats-item">
+            <div class="stats-number">24/7</div>
+            <div class="stats-text">Emergency Care</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Doctors Section -->
+  <section class="section bg-light py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <div class="section-title">
+            <h2 class="display-4 mb-3">Our Dentistry Specialists</h2>
+            <div class="divider mx-auto my-4" style="height: 3px; width: 60px; background-color: #e12454;"></div>
+            <p class="lead text-muted">Meet our team of experienced and dedicated dental specialists committed to providing exceptional oral care.</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="row">
+        {% if doctors %}
+          {% for doctor in doctors %}
+            <div class="col-lg-4 col-md-6">
+              <div class="doctor-card bg-white rounded shadow-sm mb-4 h-100">
+                <div class="doctor-img">
+                  {% if doctor.profile_image %}
+                    <img src="{{ doctor.profile_image.url }}" alt="{{ doctor.name }}" class="img-fluid w-100">
+                  {% else %}
+                    <img src="/api/placeholder/800/800" alt="{{ doctor.name }}" class="img-fluid w-100">
+                  {% endif %}
+                </div>
+                <div class="doctor-info p-4">
+                  <h4 class="doctor-name text-dark">{{ doctor.name }}</h4>
+                  <span class="doctor-specialty text-primary d-block mb-2">{{ doctor.specialization }}</span>
+                  <span class="schedule-badge badge badge-light text-primary border border-primary mb-3">{{ doctor.position }}</span>
+                  <p class="doctor-bio text-muted">{{ doctor.biography|truncatechars:100 }}</p>
+                  
+                  <div class="doctor-details bg-light p-3 rounded mb-3">
+                    <p class="mb-2"><i class="fas fa-user-md text-primary mr-2"></i> <strong>Experience:</strong> {{ doctor.years_of_experience }} years</p>
+                    <p class="mb-2"><i class="fas fa-language text-primary mr-2"></i> <strong>Languages:</strong> {{ doctor.languages }}</p>
+                    <p class="mb-2"><i class="fas fa-dollar-sign text-primary mr-2"></i> <strong>Consultation Fee:</strong> ${{ doctor.consultation_fee }}</p>
+                    {% if doctor.telemedicine %}
+                      <p class="mb-0"><span class="schedule-badge badge badge-primary"><i class="fas fa-video mr-1"></i> Telemedicine Available</span></p>
+                    {% endif %}
+                  </div>
+                  
+                  <a href="{% url 'appoinment' %}" class="appointment-btn btn btn-primary btn-block mb-3">Book Appointment</a>
+                  <div class="d-flex justify-content-between">
+                    <a href="{% url 'userdetails' doctor.id %}" class="btn-custom btn-view btn btn-outline-primary w-100">
+                      <i class="fas fa-eye mr-1"></i> View Profile
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12 text-center py-4">
+            <p class="text-muted">No dentistry specialists available at the moment. Please check back later.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <!-- Testimonials Section -->
+  <section class="section bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <div class="section-title">
+            <h2>Patient Testimonials</h2>
+            <div class="divider mx-auto my-4"></div>
+            <p>Hear from our patients about their experiences with our Cardiology Department.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>After my heart attack, the cardiology team provided exceptional care. Dr. Johnson's expertise and compassionate approach made a difficult time much easier. The cardiac rehabilitation program helped me regain my strength and confidence.</p>
+            </div>
+            <div class="testimonial-author">
+              <img src="/api/placeholder/100/100" alt="James Peterson" class="testimonial-avatar">
+              <div class="testimonial-info">
+                <h6>James Peterson</h6>
+                <span>Heart Attack Patient</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="testimonial">
+            <div class="testimonial-content">
+              <p>I was diagnosed with arrhythmia and was very anxious. Dr. Chen explained everything clearly and made sure I understood my treatment options. The follow-up care has been outstanding, and my condition is now well-managed.</p>
+            </div>
+            <div class="testimonial-author">
+              <img src="/api/placeholder/100/100" alt="Maria Rodriguez" class="testimonial-avatar">
+              <div class="testimonial-info">
+                <h6>Maria Rodriguez</h6>
+                <span>Arrhythmia Patient</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <div class="divider mx-auto my-4"></div>
+            <p>Find answers to common questions about our cardiology services and procedures.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="faq-item">
+            <div class="faq-question">What should I bring to my first cardiology appointment?</div>
+            <div class="faq-answer">
+              <p>For your first appointment, please bring:</p>
+              <ul>
+                <li>Photo ID and insurance card</li>
+                <li>List of current medications and dosages</li>
+                <li>Medical records including previous cardiac tests or procedures</li>
+                <li>List of your symptoms and when they occur</li>
+                <li>List of questions or concerns you want to discuss</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">How should I prepare for a cardiac stress test?</div>
+            <div class="faq-answer">
+              <p>To prepare for a cardiac stress test:</p>
+              <ul>
+                <li>Avoid eating or drinking for 3 hours before the test (water is okay)</li>
+                <li>Avoid caffeine and tobacco for 24 hours before the test</li>
+                <li>Wear comfortable clothing and walking shoes</li>
+                <li>Continue taking medications unless instructed otherwise by your doctor</li>
+                <li>Inform your doctor of any medical conditions that might affect your ability to exercise</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">What is the recovery like after angioplasty or stent placement?</div>
+            <div class="faq-answer">
+              <p>Recovery after angioplasty or stent placement typically involves:</p>
+              <ul>
+                <li>4-6 hours of bed rest following the procedure</li>
+                <li>24-48 hours of limited activity</li>
+                <li>Most patients can return to work within a week</li>
+                <li>You'll need to take prescribed blood-thinning medications</li>
+                <li>Follow-up appointments to monitor your recovery</li>
+                <li>Cardiac rehabilitation may be recommended</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">Does insurance cover cardiac treatments?</div>
+            <div class="faq-answer">
+              <p>Most insurance plans cover cardiac diagnostic tests and treatments, but coverage varies by provider and plan. Our financial counselors can help you understand your coverage and estimate any out-of-pocket costs. We recommend contacting your insurance provider before scheduled procedures to verify coverage and any pre-authorization requirements.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">What are the warning signs of heart problems?</div>
+            <div class="faq-answer">
+              <p>Common warning signs of heart problems include:</p>
+              <ul>
+                <li>Chest pain, pressure, or discomfort</li>
+                <li>Shortness of breath</li>
+                <li>Pain or discomfort in arms, neck, jaw, or back</li>
+                <li>Dizziness or lightheadedness</li>
+                <li>Fatigue during normal activities</li>
+                <li>Rapid or irregular heartbeat</li>
+                <li>Swelling in legs, ankles, or feet</li>
+              </ul>
+              <p>If you experience chest pain or multiple symptoms, seek emergency medical attention immediately.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section bg-light">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <div class="section-title">
+            <h2>Contact Us</h2>
+            <div class="divider mx-auto my-4"></div>
+            <p>Have questions about our cardiology services? Get in touch with our department directly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <form class="contact-form bg-white rounded p-5">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-4">
+                  <input type="text" class="form-control" placeholder="Your Name">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group mb-4">
+                  <input type="email" class="form-control" placeholder="Your Email">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <input type="text" class="form-control" placeholder="Subject">
+            </div>
+
+            <div class="form-group mb-4">
+              <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
+            </div>
+
+            <button type="submit" class="btn appointment-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple script to toggle FAQ answers
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      
+      faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+          this.classList.toggle('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+{% endblock %}
